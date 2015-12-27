@@ -1,0 +1,165 @@
+<dom-module id="mini-browser">
+  <template>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style>
+      :host {
+        width: auto;
+        height: auto;
+      }
+      #mini-browser-body {
+        display: none;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+      }
+      #mini-browser-title-bar {
+        height: 24px;
+        width: 100%;
+        flex: none;
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        border-bottom: solid 1px dimgray;
+        color: dimgray;
+        background-color: #dddddd;
+      }
+      #mini-browser-view {
+        flex: auto;
+        height: calc(100vh - 24px);
+        width: 100%;
+      }
+      .browser-ui-button {
+        border: solid 1px;
+        border-radius: 4px;
+        margin: 2px;
+        padding: 4px;
+        flex: none;
+        min-width: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #mini-browser-title {
+        flex: auto;
+        font-size: 16px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin: 0px 8px;
+        line-height: 24px;
+      }
+    </style>
+
+    <div id="mini-browser-body">
+      <div id="mini-browser-title-bar">
+        <div class="browser-ui-button" id="mini-browser-back-btn"><i class="fa fa-arrow-left"></i></div>
+        <div class="browser-ui-button" id="mini-browser-forward-btn"><i class="fa fa-arrow-right"></i></div>
+        <div id="mini-browser-title"></div>
+        <div class="browser-ui-button" id="mini-browser-close-btn"><i class="fa fa-times"></i></div>
+      </div>
+      <webview id="mini-browser-view" autosize="on"></webview>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+(function() {
+  'use strict';
+
+  Polymer({
+    is: 'mini-browser',
+
+    properties: {
+      url: {
+        type: String,
+        value: ''
+      },
+      visible: {
+        type: Boolean,
+        value: false
+      },
+      width: {
+        type: Number,
+        value: 375    // iPhone width
+      },
+      useragent: {
+        type: String,
+        value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+      },
+      editor: Object
+    },
+
+    ready: function() {
+      this.body = document.getElementById('mini-browser-body');
+      this.browser = document.getElementById('mini-browser-view');
+      this.title_text = document.getElementById('mini-browser-title');
+      document.getElementById('mini-browser-back-btn').onclick = () => {
+        this.browser.goBack();
+      };
+      document.getElementById('mini-browser-forward-btn').onclick = () => {
+        this.browser.goForward();
+      };
+      document.getElementById('mini-browser-close-btn').onclick = () => {
+        this.browser.src = '';
+        this.close();
+      };
+      this.body.style.width = this.width + 'px';
+      console.log(this.width, this.body);
+      this.browser.src = this.url;
+      this.browser.useragent = this.useragent;
+      this.browser.addEventListener('dom-ready', () => {
+          this.title_text.textContent = this.browser.getTitle();
+      });
+      if (this.visible) {
+        this.show();
+      }
+
+      this.client = this.editor.getClient();
+      this.client.on('notification', (method, args) => {
+        switch(method) {
+          case 'mini-browser:open': {
+            if (args[0]) {
+              this.open(args[0]);
+            } else {
+              this.show();
+            }
+            break;
+          }
+          case 'mini-browser:close': {
+            this.close();
+            break;
+          }
+        }
+      });
+      this.client.subscribe('mini-browser:open');
+      this.client.subscribe('mini-browser:close');
+    },
+
+    show() {
+      if (!this.visible) {
+        this.body.style.display = 'flex';
+        this.visible = true;
+        this.editor.screen.checkShouldResize();
+      }
+    },
+
+    open(url) {
+      this.browser.src = url;
+      this.show();
+    },
+
+    close() {
+      if (this.visible) {
+        this.browser.src = '';
+        this.body.style.display = 'none';
+        this.visible = false;
+        this.editor.screen.checkShouldResize();
+        this.editor.focus();
+      }
+    }
+  });
+})();
+</script>
