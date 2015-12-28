@@ -113,6 +113,36 @@
       this.browser.addEventListener('dom-ready', () => {
           this.title_text.textContent = this.browser.getTitle();
       });
+      this.body.addEventListener('keydown', e => {
+        switch (String.fromCharCode(e.keyCode).toLowerCase()) {
+          case 'j':
+            this.browser.executeJavaScript('window.scrollBy(0, window.innerHeight / 2)');
+            break;
+          case 'k':
+            this.browser.executeJavaScript('window.scrollBy(0, -window.innerHeight / 2)');
+            break;
+          case 'h':
+            this.browser.executeJavaScript('window.scrollBy(-window.innerHeight / 2, 0)');
+            break;
+          case 'l':
+            this.browser.executeJavaScript('window.scrollBy(window.innerHeight / 2, 0)');
+            break;
+          case 'x':
+            this.close();
+            break;
+          case 'f':
+            this.browser.goForward();
+            break;
+          case 'b':
+            this.browser.goBack();
+            break;
+          case 'r':
+            this.browser.reload();
+            break;
+          default:
+            break;
+        }
+      });
       if (this.visible) {
         this.show();
       }
