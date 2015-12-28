@@ -1,7 +1,7 @@
 Inner Mini Browser for [NyaoVim](https://github.com/rhysd/NyaoVim)
 ==================================================================
 
-This is [NyaoVim](https://github.com/rhysd/NyaoVim) UI plugin to open an embedded browser in window.
+This is [NyaoVim](https://github.com/rhysd/NyaoVim) UI plugin to open an embedded browser in window.  This is implemented as Web Component and built on [Electron's webview](https://github.com/atom/electron/blob/master/docs/api/web-view-tag.md).
 
 ![screenshot](https://raw.githubusercontent.com/rhysd/ss/master/nyaovim-mini-browser/main.gif)
 
