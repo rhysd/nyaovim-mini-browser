@@ -50,7 +50,26 @@ This is a setting example.  You can put `<mini-browser>` component as you like.
 | `b` | Page goes back |
 | `r` | Reload page |
 
+## Properties of `<mini-browser>`
+
+You can specify `url`, `width`, `useragent`, and `visible` to the tag.
+
+```html
+<mini-browser
+  url="https://google.com"
+  width="600"
+  useragent="...(snip)"
+  visible
+></mini-browser>
+```
+
 ## Extend Your Usage
+
+If you want to open a URL under cursor, adding below mapping to `init.vim` will help you.  Mapping to `<Leader>o` is an example.  You can map it to your favorite key sequence.
+
+```vim
+nnoremap <Leader>o :<C-u>MiniBrowser <C-r><C-p><CR>
+```
 
 This plugin only provides very simple commands.  You can write script to extend your usage with the commands as below.
 
@@ -58,6 +77,7 @@ This plugin only provides very simple commands.  You can write script to extend 
 - Look for a word under the cursor in online documentations
 - Search something on Google Search
 - Play music on SoundCloud ;)
+- etc...
 
 ## License
 
