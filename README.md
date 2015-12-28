@@ -1,9 +1,63 @@
 Inner Mini Browser for [NyaoVim](https://github.com/rhysd/NyaoVim)
 ==================================================================
 
-## Usage
+This is [NyaoVim](https://github.com/rhysd/NyaoVim) UI plugin to open an embedded browser in window.
 
-TODO
+![screenshot](https://raw.githubusercontent.com/rhysd/ss/master/nyaovim-mini-browser/main.gif)
+
+## Installation
+
+Install this repository as Vim plugin with your favorite plugin manager.  And put `<mini-browser>` component to your `nyaovimrc.html` as below.
+
+```html
+<style>
+  /* CSS configurations here */
+  .horizontal {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+  neovim-editor {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<!-- Put your component in flex box layout  -->
+<div class="horizontal">
+  <neovim-editor id="nyaovim-editor" argv$="[[argv]]"></neovim-editor>
+  <mini-browser editor="[[editor]]"></mini-browser>
+</div>
+```
+
+This is a setting example.  You can put `<mini-browser>` component as you like.
+
+## Commands
+
+- `:MiniBrowser [url]`: Open mini browser with specified URL.  If `url` is omitted, previous page is shown.  If you add `!` to the command, focus doesn't move after opening a browser.
+- `:MiniBrowserClose`: Close mini browser.
+
+## Keymaps In Browser
+
+| keymap | description |
+| ------ | ----------- |
+| `j` | Scroll half page down |
+| `k` | Scroll half page up |
+| `h` | Scroll half page left |
+| `l` | Scroll half page right |
+| `x` | Close mini browser |
+| `f` | Page goes forward |
+| `b` | Page goes back |
+| `r` | Reload page |
+
+## Extend Your Usage
+
+This plugin only provides very simple commands.  You can write script to extend your usage with the commands as below.
+
+- Open GitHub issues of current repository
+- Look for a word under the cursor in online documentations
+- Search something on Google Search
+- Play music on SoundCloud ;)
 
 ## License
 
