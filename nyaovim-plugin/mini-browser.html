@@ -107,7 +107,6 @@
         this.close();
       };
       this.body.style.width = this.width + 'px';
-      console.log(this.width, this.body);
       this.browser.src = this.url;
       this.browser.useragent = this.useragent;
       this.browser.addEventListener('dom-ready', () => {
@@ -170,7 +169,6 @@
 
     show(focus) {
       if (!this.visible) {
-        console.log('focus: ' + focus, typeof focus);
         this.body.style.display = 'flex';
         this.visible = true;
         this.editor.screen.checkShouldResize();
