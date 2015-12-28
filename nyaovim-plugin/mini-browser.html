@@ -151,10 +151,10 @@
       this.client.on('notification', (method, args) => {
         switch(method) {
           case 'mini-browser:open': {
-            if (args[0]) {
-              this.open(args[0]);
+            if (typeof args[0] === 'string') {
+              this.open(args[0], args[1] === undefined || args[1]);
             } else {
-              this.show();
+              this.show(args[0] === undefined || args[0]);
             }
             break;
           }
@@ -168,17 +168,21 @@
       this.client.subscribe('mini-browser:close');
     },
 
-    show() {
+    show(focus) {
       if (!this.visible) {
+        console.log('focus: ' + focus, typeof focus);
         this.body.style.display = 'flex';
         this.visible = true;
         this.editor.screen.checkShouldResize();
+        if (focus) {
+          this.browser.focus();
+        }
       }
     },
 
-    open(url) {
+    open(url, focus) {
       this.browser.src = url;
-      this.show();
+      this.show(focus);
     },
 
     close() {
