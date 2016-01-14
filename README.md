@@ -45,10 +45,50 @@ This is a setting example.  You can put `<mini-browser>` component as you like.
 | `k` | Scroll half page up |
 | `h` | Scroll half page left |
 | `l` | Scroll half page right |
-| `x` | Close mini browser |
-| `f` | Page goes forward |
-| `b` | Page goes back |
-| `r` | Reload page |
+| `Ctrl+x` | Close mini browser |
+| `Ctrl+Shift+f` | Page goes forward |
+| `Ctrl+Shift+b` | Page goes back |
+| `Ctrl+r` | Reload page |
+| `Ctrl+Shift+i` | Open DevTools window |
+
+## Extend Your Usage
+
+This plugin only provides very simple commands.  You can write script to extend your usage with the commands as below.
+
+- Open GitHub issues of current repository
+- Look for a word under the cursor in online documentations
+- Search something on Google Search
+- Play music on SoundCloud ;)
+- etc...
+
+### Example1: Open URL under cursor
+
+If you want to open a URL under cursor, adding below mapping to `init.vim` will help you.  Mapping to `<Leader>o` is an example.  You can map it to your favorite key sequence.
+
+```vim
+nnoremap <Leader>o :<C-u>MiniBrowser <C-r><C-p><CR>
+```
+
+### Example2: [devdocs.io](http://devdocs.io/)
+
+Below is an example configuration to search [devdocs.io](http://devdocs.io) instantly.  `:Devdocs` command is defined.  When parameter is given, it opens devdocs.io with the parameter as query.  If no parameter is given, it opens devdocs.io with the word under cursor.
+
+```vim
+function! s:devdocs(query) abort
+    if a:query ==# ''
+        let cword = expand('<cword>')
+        if cword ==# ''
+            MiniBrowser http://devdocs.io/
+        else
+            execute 'MiniBrowser' 'http://devdocs.io/#q='.escape(cword, ' \')
+        endif
+        return
+    endif
+
+    execute 'MiniBrowser' 'http://devdocs.io/#q='.escape(a:query, ' \')
+endfunction
+command! -nargs=* DevDocs call <SID>devdocs(<q-args>)
+```
 
 ## Properties of `<mini-browser>`
 
@@ -62,22 +102,6 @@ You can specify `url`, `width`, `useragent`, and `visible` to the tag.
   visible
 ></mini-browser>
 ```
-
-## Extend Your Usage
-
-If you want to open a URL under cursor, adding below mapping to `init.vim` will help you.  Mapping to `<Leader>o` is an example.  You can map it to your favorite key sequence.
-
-```vim
-nnoremap <Leader>o :<C-u>MiniBrowser <C-r><C-p><CR>
-```
-
-This plugin only provides very simple commands.  You can write script to extend your usage with the commands as below.
-
-- Open GitHub issues of current repository
-- Look for a word under the cursor in online documentations
-- Search something on Google Search
-- Play music on SoundCloud ;)
-- etc...
 
 ## License
 
