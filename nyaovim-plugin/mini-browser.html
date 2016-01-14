@@ -107,10 +107,10 @@
         this.close();
       };
       this.body.style.width = this.width + 'px';
-      this.browser.src = this.url;
       this.browser.useragent = this.useragent;
+      this.browser.src = this.url;
       this.browser.addEventListener('dom-ready', () => {
-          this.title_text.textContent = this.browser.getTitle();
+        this.title_text.textContent = this.browser.getTitle();
       });
       this.body.addEventListener('keydown', e => {
         switch (String.fromCharCode(e.keyCode).toLowerCase()) {
@@ -137,6 +137,11 @@
             break;
           case 'r':
             this.browser.reload();
+            break;
+          case 'i':
+            if (e.ctrlKey && e.shiftKey) {
+              this.browser.openDevTools();
+            }
             break;
           default:
             break;
@@ -172,9 +177,9 @@
         this.body.style.display = 'flex';
         this.visible = true;
         this.editor.screen.checkShouldResize();
-        if (focus) {
-          this.browser.focus();
-        }
+      }
+      if (focus) {
+        this.browser.focus();
       }
     },
 
