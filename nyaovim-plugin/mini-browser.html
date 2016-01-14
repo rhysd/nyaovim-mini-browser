@@ -115,28 +115,64 @@
       this.body.addEventListener('keydown', e => {
         switch (String.fromCharCode(e.keyCode).toLowerCase()) {
           case 'j':
-            this.browser.executeJavaScript('window.scrollBy(0, window.innerHeight / 2)');
+            this.browser.executeJavaScript(
+              `(function(){
+                var n = document.activeElement.tagName;
+                if (n != "INPUT" && n != "SELECT" && n != "TEXTAREA") {
+                  window.scrollBy(0, window.innerHeight / 2);
+                }
+              })()`
+            );
             break;
           case 'k':
-            this.browser.executeJavaScript('window.scrollBy(0, -window.innerHeight / 2)');
+            this.browser.executeJavaScript(
+              `(function(){
+                var n = document.activeElement.tagName;
+                if (n != "INPUT" && n != "SELECT" && n != "TEXTAREA") {
+                  window.scrollBy(0, -window.innerHeight / 2);
+                }
+              })()`
+            );
             break;
           case 'h':
-            this.browser.executeJavaScript('window.scrollBy(-window.innerHeight / 2, 0)');
+            this.browser.executeJavaScript(
+              `(function(){
+                var n = document.activeElement.tagName;
+                if (n != "INPUT" && n != "SELECT" && n != "TEXTAREA") {
+                  window.scrollBy(-window.innerHeight / 2, 0);
+                }
+              })()`
+            );
             break;
           case 'l':
-            this.browser.executeJavaScript('window.scrollBy(window.innerHeight / 2, 0)');
+            this.browser.executeJavaScript(
+              `(function(){
+                var n = document.activeElement.tagName;
+                if (n != "INPUT" && n != "SELECT" && n != "TEXTAREA") {
+                  window.scrollBy(window.innerHeight / 2, 0);
+                }
+              })()`
+            );
             break;
           case 'x':
-            this.close();
+            if (e.ctrlKey) {
+              this.close();
+            }
             break;
           case 'f':
-            this.browser.goForward();
+            if (e.ctrlKey && e.shiftKey) {
+              this.browser.goForward();
+            }
             break;
           case 'b':
-            this.browser.goBack();
+            if (e.ctrlKey && e.shiftKey) {
+              this.browser.goBack();
+            }
             break;
           case 'r':
-            this.browser.reload();
+            if (e.ctrlKey) {
+              this.browser.reload();
+            }
             break;
           case 'i':
             if (e.ctrlKey && e.shiftKey) {
