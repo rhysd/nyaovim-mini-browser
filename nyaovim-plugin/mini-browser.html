@@ -93,16 +93,16 @@
     },
 
     ready: function() {
-      this.body = document.getElementById('mini-browser-body');
-      this.browser = document.getElementById('mini-browser-view');
-      this.title_text = document.getElementById('mini-browser-title');
-      document.getElementById('mini-browser-back-btn').onclick = () => {
+      this.body = this.$['mini-browser-body'];
+      this.browser = this.$['mini-browser-view'];
+      this.title_text = this.$['mini-browser-title'];
+      this.$['mini-browser-back-btn'].onclick = () => {
         this.browser.goBack();
       };
-      document.getElementById('mini-browser-forward-btn').onclick = () => {
+      this.$['mini-browser-forward-btn'].onclick = () => {
         this.browser.goForward();
       };
-      document.getElementById('mini-browser-close-btn').onclick = () => {
+      this.$['mini-browser-close-btn'].onclick = () => {
         this.browser.src = '';
         this.close();
       };
